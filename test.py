@@ -7,7 +7,7 @@ def test_gfu_format():
     print(G.nodes.data())
     print(G.edges())
 
-def test_gfu_graph_format():
+def test_graph_format():
     path_graph = 'example/g.graph'
     G = graph.get_networkx_graph_format(path_graph)
     print(G.nodes())
@@ -15,4 +15,5 @@ def test_gfu_graph_format():
     print(G.edges())
 
 if __name__:
-    test_gfu_graph_format()
+    test_gfu_format()
+    test_graph_format()
