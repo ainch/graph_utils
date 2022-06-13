@@ -31,10 +31,28 @@ def get_networkx_graph_format(name_path):
 		
 		for _ in range(num_vertices):
 			_, v, l, d = f.readline().split()
-			G.add_node(int(v), label = l)
+			G.add_node(int(v), label = int(l))
 		
 		for _ in range(num_edges):
 			_, x, y = f.readline().split()
 			G.add_edge(int(x), int(y))
 
 	return G
+
+def make_file_graph_format(G, name_path):
+	num_vertices = len(G.nodes())
+	num_edgs = len(G.edges())
+	
+	with open(name_path, 'w') as f:
+		f.write('t {} {}\n'.format(num_vertices, num_edgs))
+
+		for node_and_label in G.nodes.data():
+			node = node_and_label[0]
+			label = node_and_label[1]['label']
+			degree = G.degree(node)
+			f.write('v {} {} {}\n'.format(node, label, degree))
+
+		for x,y in G.edges():
+			f.write('e {} {}\n'.format(x, y))
+
+	
