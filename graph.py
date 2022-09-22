@@ -40,29 +40,44 @@ def get_networkx_graph_format(name_path):
 	return G
 
 def get_networkx_igraph_format(name_path):
-	G = nx.Graph()
+	Gs = []
+
 	with open(name_path,'r') as f:
+		
 		_ = f.readline()
 		
 		while True:
-			line = f.readline()
-	
-			if line:
-				eles = line.split()
-				
-				if len(eles) == 3:
-					G.add_node(int(eles[1]), label = eles[2])
-				else:
-					G.add_edge(int(eles[1]),int(eles[2]))
-			else:
-				break
+			G = nx.Graph()
+			graph_found = False
 
-	return G
+			while True:
+				line = f.readline()
+		
+				if line:
+					eles = line.split()
+					if line[0] == 't':
+						break
+					elif line[0] == 'v':
+						graph_found = True
+						G.add_node(int(eles[1]), label = eles[2])
+					elif line[0] == 'e':
+						G.add_edge(int(eles[1]),int(eles[2]))
+					else:
+						break
+				else:
+					break
+			
+			if graph_found == False:
+				break
+			else:
+				Gs.append(G)
+
+	return Gs
 
 def make_file_gfu_format(G, name_path):
 	num_vertices = len(G.nodes())
 	num_edges = len(G.edges())
-	
+
 	lines = []
 
 	lines.append('#0')
