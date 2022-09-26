@@ -111,4 +111,16 @@ def make_file_graph_format(G, name_path):
 		for x,y in G.edges():
 			f.write('e {} {}\n'.format(x, y))
 
-	
+def make_file_igraph_format(Gs, name_path):
+	with open(name_path, 'w') as f:
+		for idx_G, G in enumerate(Gs):
+			f.write('t # {}\n'.format(idx_G))
+			for node_and_label in G.nodes.data():
+				node = node_and_label[0]
+				label = node_and_label[1]['label']
+				f.write('v {} {}\n'.format(node, label))
+
+			for x,y in G.edges():
+				f.write('e {} {} 0\n'.format(x, y))
+		
+		
